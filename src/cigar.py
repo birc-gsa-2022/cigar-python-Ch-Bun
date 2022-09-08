@@ -38,7 +38,13 @@ def cigar_to_edits(cigar: str) -> str:
 
     """
     # FIXME: construct the edits sequence
-    return ""
+    i = 0
+    edits = ''
+    while i < len(cigar):
+        edits = ''.join((edits, (int(cigar[i])*cigar[i+1])))
+        i += 2
+
+    return edits
 
 
 def split_blocks(x: str) -> list[str]:
@@ -74,4 +80,25 @@ def edits_to_cigar(edits: str) -> str:
 
     """
     # FIXME: Compute the cigar
-    return ''
+    i = 0
+    cigar = ''
+    while i <  len(edits):
+        cnt = 1
+        j = i
+        while (j <  len(edits)-1 and edits[i] == edits[j+1]):
+            cnt += 1
+            j += 1
+        cigar = ''.join((cigar, str(cnt), edits[i]))
+        i = j+1
+
+    return cigar
+
+
+
+#test
+#def main():
+#    print(edits_to_cigar('MDMMMMMMIMMMM'))
+#    print(cigar_to_edits("1M1D6M1I4M"))
+
+#if __name__ == '__main__':
+#    main()
