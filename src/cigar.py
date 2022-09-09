@@ -38,12 +38,17 @@ def cigar_to_edits(cigar: str) -> str:
 
     """
     # FIXME: construct the edits sequence
-    i = 0
+    #i = 0
     edits = ''
-    while i < len(cigar):
-        edits = ''.join((edits, (int(cigar[i])*cigar[i+1])))
-        i += 2
-
+    nrOfRep = ''
+    for i in range(len(cigar)):
+        if cigar[i].isdigit():
+            nrOfRep = ''.join((nrOfRep, cigar[i]))
+            i += 1
+        else:
+            edits = ''.join((edits, (int(nrOfRep)*cigar[i])))
+            i += 1
+            nrOfRep = ''
     return edits
 
 
@@ -94,11 +99,17 @@ def edits_to_cigar(edits: str) -> str:
     return cigar
 
 
-
+"""
 #test
-#def main():
-#    print(edits_to_cigar('MDMMMMMMIMMMM'))
-#    print(cigar_to_edits("1M1D6M1I4M"))
+def main():
+    print(edits_to_cigar('MDMMMMMMIMMMM'))
+    print(edits_to_cigar('MDMMMMMMMMMMIMMMM'))
+    print(edits_to_cigar(''))
 
-#if __name__ == '__main__':
-#    main()
+    print(cigar_to_edits("1M1D6M1I4M"))
+    print(cigar_to_edits("10M1D6M1I4M"))
+    print(cigar_to_edits(""))
+
+if __name__ == '__main__':
+    main()
+"""
